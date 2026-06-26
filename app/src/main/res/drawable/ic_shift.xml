@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/drawable/ic_shift.xml
+    ══════════════════════════
+    Upward-pointing arrow (⇧) used as the shift key icon.
+    Displayed via android:keyIcon in qwerty.xml.
+    Tint follows key_text colour automatically.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="@color/key_text">
+
+    <!--  Upward chevron / arrow shape  -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/key_text"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M12,4 L4,13 H8 V20 H16 V13 H20 Z" />
+
+</vector>
