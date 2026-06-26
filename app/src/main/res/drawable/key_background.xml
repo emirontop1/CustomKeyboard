@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/drawable/key_background.xml
+    ════════════════════════════════
+    State-list drawable applied to every key via
+    android:keyBackground in keyboard_view.xml.
+
+    States (evaluated top-to-bottom, first match wins):
+      pressed → darker shade while finger is down
+      default → normal resting shade
+
+    To add a rounded corner feel, swap the <color> for a <shape>
+    with <corners android:radius="8dp" />.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/key_pressed_background" />
+            <corners android:radius="8dp" />
+            <stroke android:width="0.5dp" android:color="#60FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Default (not pressed) state -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/key_normal_background" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+</selector>
