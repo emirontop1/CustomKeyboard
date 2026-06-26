@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/xml/input_method.xml
+    ════════════════════════
+    Descriptor for the Android IME framework.
+    Referenced by the <meta-data android:name="android.view.im"> tag
+    inside the <service> block in AndroidManifest.xml.
+
+    settingsActivity → the Activity launched when the user taps
+                       "Language settings" in the IME picker.
+-->
+<input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="com.customkeyboard.SettingsActivity"
+    android:supportsSwitchingToNextInputMethod="true">
+
+    <!--
+        Subtype: US English / QWERTY
+        Adding more subtypes here enables the IME switcher
+        to cycle through layouts without opening Settings.
+    -->
+    <subtype
+        android:label="@string/subtype_en_us"
+        android:imeSubtypeLocale="en_US"
+        android:imeSubtypeMode="keyboard"
+        android:isAsciiCapable="true" />
+
+</input-method>
