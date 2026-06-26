@@ -1,0 +1,19 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# APK / AAB outputs (tracked by GitHub Actions artifacts instead)
+*.apk
+*.aab
+
+# Keystore files — NEVER commit these
+*.jks
+*.keystore
+keystore.properties
