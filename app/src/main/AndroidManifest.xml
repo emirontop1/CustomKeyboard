@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- IME binding permission -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.CustomKeyboard">
+
+        <!-- Settings Activity - launcher entry point -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            IME Service Declaration.
+            - android.permission.BIND_INPUT_METHOD: Ensures only the Android system
+              can bind to our keyboard service, preventing malicious apps from accessing it.
+            - The meta-data tag points to our input method descriptor XML.
+        -->
+        <service
+            android:name=".MyCustomKeyboardService"
+            android:exported="true"
+            android:label="@string/keyboard_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+
+            <!-- Links this service to its input method configuration -->
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/input_method" />
+
+        </service>
+
+    </application>
+
+</manifest>
