@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/values/dimens.xml
+    ══════════════════════
+    All dimension values used by the keyboard.
+    Override these in res/values-sw600dp/dimens.xml for tablets,
+    or in res/values-land/dimens.xml for landscape orientation.
+-->
+<resources>
+
+    <!-- ── Key geometry ──────────────────────────────────────────── -->
+    <!-- Height of each key row -->
+    <dimen name="key_height">52dp</dimen>
+    <!-- Gap between keys horizontally -->
+    <dimen name="key_horizontal_gap">4dp</dimen>
+    <!-- Gap between rows vertically -->
+    <dimen name="key_vertical_gap">4dp</dimen>
+
+    <!-- ── Typography ────────────────────────────────────────────── -->
+    <!-- Single-character key labels (a, b, 1, 2 …) -->
+    <dimen name="key_text_size">20sp</dimen>
+    <!-- Multi-character key labels (?123, ABC, SPACE) -->
+    <dimen name="key_label_text_size">14sp</dimen>
+
+    <!-- ── Key preview popup ─────────────────────────────────────── -->
+    <dimen name="key_preview_min_width">48dp</dimen>
+    <dimen name="key_preview_text_size">28sp</dimen>
+
+    <!-- ── Suggestion strip ──────────────────────────────────────── -->
+    <dimen name="suggestion_strip_height">40dp</dimen>
+
+    <!-- ── Keyboard bottom padding ───────────────────────────────── -->
+    <!-- Keeps the bottom row above the gesture navigation bar -->
+    <dimen name="keyboard_bottom_padding">4dp</dimen>
+
+</resources>
