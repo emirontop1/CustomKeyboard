@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/drawable/ic_delete.xml
+    ═══════════════════════════
+    Backspace / delete key icon (⌫ style left-pointing arrow).
+    Displayed via android:keyIcon in qwerty.xml.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="@color/key_text">
+
+    <!-- Backspace icon: left-pointing tag shape with an X inside -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/key_text"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M21,6 H8 L2,12 L8,18 H21 V6 Z" />
+
+    <!-- X mark inside the tag -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="@color/key_text"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round"
+        android:pathData="M11,9.5 L17,14.5 M17,9.5 L11,14.5" />
+
+</vector>
