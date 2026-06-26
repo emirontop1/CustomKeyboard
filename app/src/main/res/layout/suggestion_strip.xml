@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    res/layout/suggestion_strip.xml
+    ════════════════════════════════
+    Horizontal strip above the keys for word suggestions.
+    Include this in keyboard_view.xml with visibility="visible"
+    and wire up TextViews to your suggestion engine.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/suggestion_strip_height"
+    android:orientation="horizontal"
+    android:background="@color/suggestion_strip_background"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/suggestion_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/key_text"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/key_divider" />
+
+    <TextView
+        android:id="@+id/suggestion_center"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/suggestion_highlight"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/key_divider" />
+
+    <TextView
+        android:id="@+id/suggestion_right"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/key_text"
+        android:textSize="14sp"
+        android:padding="4dp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+</LinearLayout>
