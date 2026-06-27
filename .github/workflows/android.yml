@@ -25,27 +25,35 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug 2>&1
-        continue-on-error: true
+        run: ./gradlew assembleDebug
 
-      - name: Show Gradle error if failed
+      - name: Upload APK to GitHub Release
         run: |
-          echo "=== BUILD OUTPUT ==="
-          find . -name "*.log" -path "*/build/*" | head -5 | xargs cat 2>/dev/null || true
-          echo "=== APK CHECK ==="
-          find . -name "*.apk" 2>/dev/null || echo "No APK found"
-          echo "=== LAST ERRORS ==="
-          find . -name "*.txt" -path "*/build/*" 2>/dev/null | head -3 | xargs grep -l "error\|Error\|FAILED" 2>/dev/null | head -2 | xargs cat 2>/dev/null | tail -50 || true
+          APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+          TAG="v1.0.${{ github.run_number }}"
+          REPO="${{ github.repository }}"
+          TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: "CustomKeyboard v1.0.${{ github.run_number }}"
-          body: "Debug APK - Build #${{ github.run_number }}"
-          files: app/build/outputs/apk/debug/app-debug.apk
-          draft: false
-          prerelease: false
-          fail_on_unmatched_files: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "APK exists: $(ls -lh $APK_PATH)"
+
+          # Create release
+          RELEASE_JSON=$(curl -s -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"tag_name\":\"$TAG\",\"name\":\"CustomKeyboard $TAG\",\"body\":\"Debug APK - Build #${{ github.run_number }}\n\nKurulum:\\n1. APK'yi indir\\n2. Bilinmeyen kaynaklara izin ver\\n3. Yükle ve etkinleştir\",\"draft\":false,\"prerelease\":false}" \
+            "https://api.github.com/repos/$REPO/releases")
+
+          echo "Release response: $RELEASE_JSON"
+
+          UPLOAD_URL=$(echo "$RELEASE_JSON" | python3 -c "import sys,json; r=json.load(sys.stdin); print(r['upload_url'].split('{')[0])")
+          echo "Upload URL: $UPLOAD_URL"
+
+          # Upload APK binary
+          UPLOAD_RESULT=$(curl -s -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Content-Type: application/vnd.android.package-archive" \
+            --data-binary "@$APK_PATH" \
+            "${UPLOAD_URL}?name=CustomKeyboard-debug.apk&label=CustomKeyboard+Debug+APK")
+
+          echo "Upload result: $UPLOAD_RESULT"
+          echo "Download URL: $(echo $UPLOAD_RESULT | python3 -c "import sys,json; print(json.load(sys.stdin).get('browser_download_url','ERROR'))")"
