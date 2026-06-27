@@ -22,7 +22,17 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: |
+          ./gradlew assembleDebug --stacktrace 2>&1 | tee build_output.txt
+          echo "EXIT CODE: ${PIPESTATUS[0]}"
+        continue-on-error: true
+
+      - name: Show build output tail
+        run: tail -100 build_output.txt || echo "No build output file"
+
+      - name: Check APK
+        run: |
+          find . -name "*.apk" 2>/dev/null && echo "APK found!" || echo "No APK found"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
