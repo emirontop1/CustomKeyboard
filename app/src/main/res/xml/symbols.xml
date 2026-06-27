@@ -70,7 +70,7 @@
     <Row android:rowEdgeFlags="bottom">
         <Key
             android:codes="-2"
-            android:keyLabel="ABC"
+            android:keyLabel="@string/key_label_abc"
             android:keyEdgeFlags="left"
             android:keyWidth="15%p" />
         <Key android:codes="44" android:keyLabel="," android:keyWidth="10%p" />
