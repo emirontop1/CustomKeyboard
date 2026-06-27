@@ -26,7 +26,14 @@ jobs:
           gradle-version: '8.4'
 
       - name: Build Debug APK
-        run: gradle assembleDebug --stacktrace
+        run: |
+          gradle :app:assembleDebug --stacktrace 2>&1 | tee /tmp/build.log
+          BUILD_EXIT=${PIPESTATUS[0]}
+          if [ $BUILD_EXIT -ne 0 ]; then
+            echo "=== HATA ==="
+            grep -E "error:|Error|FAILED|Exception" /tmp/build.log | tail -30
+            exit 1
+          fi
 
       - name: Upload APK to Release
         if: success()
@@ -50,4 +57,4 @@ jobs:
             --data-binary "@$APK" \
             "${UPLOAD_URL}?name=CustomKeyboard-debug.apk"
 
-          echo "✅ Release: https://github.com/$REPO/releases/tag/$TAG"
+          echo "Release: https://github.com/$REPO/releases/tag/$TAG"
