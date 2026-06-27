@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -22,28 +24,28 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
-        continue-on-error: true
+        run: ./gradlew assembleDebug
 
-      - name: Check APK exists
-        run: find . -name "*.apk" | head -5
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: CustomKeyboard-debug
-          path: app/build/outputs/apk/debug/*.apk
-          retention-days: 30
-          if-no-files-found: warn
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: "CustomKeyboard v1.0.${{ github.run_number }}"
-          body: "Debug APK - otomatik build #${{ github.run_number }}"
-          files: app/build/outputs/apk/debug/*.apk
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release and Upload APK
+        run: |
+          APK=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+          echo "APK path: $APK"
+          
+          # Create release
+          RELEASE=$(curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"tag_name\":\"v1.0.${{ github.run_number }}\",\"name\":\"CustomKeyboard v1.0.${{ github.run_number }}\",\"body\":\"Debug APK - Build #${{ github.run_number }}\",\"draft\":false,\"prerelease\":false}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases")
+          
+          UPLOAD_URL=$(echo $RELEASE | python3 -c "import sys,json; r=json.load(sys.stdin); print(r.get('upload_url','').replace('{?name,label}',''))")
+          echo "Upload URL: $UPLOAD_URL"
+          
+          # Upload APK
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/vnd.android.package-archive" \
+            --data-binary "@$APK" \
+            "${UPLOAD_URL}?name=CustomKeyboard-debug.apk"
+          
+          echo "Done!"
