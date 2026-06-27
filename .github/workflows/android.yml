@@ -19,21 +19,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
       - name: Build Debug APK
-        id: build
-        run: |
-          ./gradlew assembleDebug --stacktrace 2>&1 | tee /tmp/gradle.log
-          BUILD_EXIT=${PIPESTATUS[0]}
-          if [ $BUILD_EXIT -ne 0 ]; then
-            echo "=== BUILD FAILED - Last 80 lines ==="
-            tail -80 /tmp/gradle.log
-            exit 1
-          fi
+        run: gradle assembleDebug --stacktrace
 
       - name: Upload APK to Release
         if: success()
@@ -46,7 +39,7 @@ jobs:
           RELEASE=$(curl -sf -X POST \
             -H "Authorization: token $TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"tag_name\":\"$TAG\",\"name\":\"CustomKeyboard $TAG\",\"body\":\"Debug APK\",\"draft\":false,\"prerelease\":false}" \
+            -d "{\"tag_name\":\"$TAG\",\"name\":\"CustomKeyboard $TAG\",\"body\":\"Debug APK - Build #${{ github.run_number }}\",\"draft\":false,\"prerelease\":false}" \
             "https://api.github.com/repos/$REPO/releases")
 
           UPLOAD_URL=$(echo "$RELEASE" | python3 -c "import sys,json; print(json.load(sys.stdin)['upload_url'].split('{')[0])")
@@ -57,4 +50,4 @@ jobs:
             --data-binary "@$APK" \
             "${UPLOAD_URL}?name=CustomKeyboard-debug.apk"
 
-          echo "Release: https://github.com/$REPO/releases/tag/$TAG"
+          echo "✅ Release: https://github.com/$REPO/releases/tag/$TAG"
