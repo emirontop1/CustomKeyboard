@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App -->
     <string name="app_name">Custom Keyboard</string>
     <string name="keyboard_name">Custom Keyboard</string>
     <string name="subtype_en_us">English (US)</string>
-
-    <!-- Settings screen -->
     <string name="settings_subtitle">Follow the steps below to activate your keyboard.</string>
-
     <string name="step_1_title">Step 1 — Enable keyboard</string>
-    <string name="step_1_description">
-        Open Language &amp; Input settings and enable "Custom Keyboard" in the list
-        of available keyboards.
-    </string>
+    <string name="step_1_description">Open Language &amp; Input settings and enable "Custom Keyboard".</string>
     <string name="btn_open_settings">Open Input Method Settings</string>
-
     <string name="step_2_title">Step 2 — Select keyboard</string>
-    <string name="step_2_description">
-        Tap the button below to open the keyboard switcher and choose
-        "Custom Keyboard" as your active input method.
-    </string>
+    <string name="step_2_description">Tap below to open the keyboard switcher and choose "Custom Keyboard".</string>
     <string name="btn_select_keyboard">Select as Active Keyboard</string>
-
-    <!-- Status labels -->
     <string name="status_enabled">✓ Enabled</string>
     <string name="status_not_enabled">Not yet enabled</string>
+    <string name="key_label_sym">SYM</string>
+    <string name="key_label_abc">ABC</string>
 </resources>
