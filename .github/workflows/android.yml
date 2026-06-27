@@ -22,17 +22,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug APK
-        run: |
-          ./gradlew assembleDebug --stacktrace 2>&1 | tee build_output.txt
-          echo "EXIT CODE: ${PIPESTATUS[0]}"
+        run: ./gradlew assembleDebug --stacktrace
         continue-on-error: true
 
-      - name: Show build output tail
-        run: tail -100 build_output.txt || echo "No build output file"
-
-      - name: Check APK
-        run: |
-          find . -name "*.apk" 2>/dev/null && echo "APK found!" || echo "No APK found"
+      - name: Check APK exists
+        run: find . -name "*.apk" | head -5
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -41,3 +35,15 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
           if-no-files-found: warn
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: "CustomKeyboard v1.0.${{ github.run_number }}"
+          body: "Debug APK - otomatik build #${{ github.run_number }}"
+          files: app/build/outputs/apk/debug/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
